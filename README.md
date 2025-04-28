@@ -1,12 +1,12 @@
-# TeensyRA8876-SPI
-## A RA8876 SPI DRIVER  library for Teensy boards and variants.
+# TeensyRA8889-SPI
+## A RA8889 SPI DRIVER  library for Teensy boards and variants.
 
-This library is designed to be used with the TeensyRa8876-GFX-Common library and can be found here:
-- https://github.com/wwatson4506/TeensyRA8876-GFX-Common
+This library is designed to be used with the TeensyRA8889-GFX-Common library and can be found here:
+- https://github.com/wwatson4506/TeensyRA8889-GFX-Common
 
 Communication with the Teensy is accomplished using SPI.
 
-![https://github.com/wwatson4506/TeensyRA8876-8080/blob/main/extras/MEM_Transfer.jpg](https://github.com/wwatson4506/TeensyRA8876-8080/blob/main/extras/MEM_Transfer.jpg)
+![https://github.com/wwatson4506/TeensyRA8889-SPI/blob/main/extras/MEM_Transfer.jpg](https://github.com/wwatson4506/TeensyRA8889-SPI/blob/main/extras/MEM_Transfer.jpg)
 
 ## TOUCH SCREEN
 The capacitive touch controller now used on the ER-TFTM101-1 is the Goodix GT9271. I2C communication is used with the GT9371 controller.

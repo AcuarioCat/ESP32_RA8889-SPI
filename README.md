@@ -27,7 +27,7 @@ A minimal driver adapted from the arduino-goodix library can be found here:
 
 https://www.buydisplay.com/download/interfacing/ER-TFTM101-1_CTP_Interfacing.pdf
 
-### Teensy 4.1 <--------------> RA8876
+### Teensy 4.1 <--------------> RA8889
 ### Dev BRD 5 (Same)
 ```
 SPI usage.
@@ -44,7 +44,7 @@ Power and Grounds
 NOTE: All power and ground pins should be connected.
 
 Touch Screen (ER_TFTM101-1 40 pin dual inline connector)
-  Teensy 4.1            RA8876
+  Teensy 4.1            RA8889
 - 3.3V ---------------> CPT_/RST 36
 - 28   ---------------> CPT_INT  33
 - 25   ---------------> CPT_SDA  34
@@ -56,19 +56,19 @@ Touch Screen (ER_TFTM101-1 40 pin dual inline connector)
 Both SPI Parallel and 8080 libraries have config file.
 Config file for SPI:
 ```
-/* RA8876_Config_SPI.h
+/* RA8889_Config_SPI.h
  A file to place user defines and configs.
 */
 
-#ifndef RA8876_CONFIG_SPI_H
-#define RA8876_CONFIG_SPI_H
+#ifndef RA8889_CONFIG_SPI_H
+#define RA8889_CONFIG_SPI_H
 
 // SPI hardware settings
 #define USE_SPI  // Needed for writeRect() in RA8876_GFX
-#define RA8876_CS 10
-#define RA8876_RESET 9
+#define RA8889_CS 10
+#define RA8889_RESET 9
 
-// Example usage in sketch: RA8876_t3 tft = RA8876_t3(RA8876_CS, RA8876_RESET); //Using standard SPI pins
+// Example usage in sketch: RA8889_t3 tft = RA8889_t3(RA8876_CS, RA8889_RESET); //Using standard SPI pins
 
 // Uncomment define below to use 47MHz SPI clock. Default is 30MHz.
 // We start off slow in case of long connecting wires. If having problems,
@@ -86,7 +86,7 @@ Config file for SPI:
 // Uncomment to use FT5206 touch. (Not used on the ER-TFTM1010-1)
 #define USE_FT5206_TOUCH
 
-#endif // RA8876_CONFIG_H
+#endif // RA8889_CONFIG_H
 ```
 
 ### MINIMAL SKETCH EXAMPLE
@@ -94,13 +94,13 @@ Config file for SPI:
 // sketch.ino
 
 #include "Arduino.h"
-#include "RA8876_Config_SPI.h"
-#include <RA8876_t3.h>
+#include "RA8889_Config_SPI.h"
+#include <RA8889_t3.h>
 #include <SPI.h>
 
-// RA8876_CS and RA8876_RESET are defined in
-// src/RA8876_Config_SPI.h.
-RA8876_t3 tft = RA8876_t3(RA8876_CS, RA8876_RESET); //Using standard SPI pins
+// RA8889_CS and RA8889_RESET are defined in
+// src/RA8889_Config_SPI.h.
+RA8889_t3 tft = RA8889_t3(RA8889_CS, RA8889_RESET); //Using standard SPI pins
 
 void setup() {
   Serial.begin(115200);
@@ -132,8 +132,8 @@ Example sketches can be found in the TeensyRA8876-8080 and TeensyRA8876-SPI exam
 - ILI_ADA_FontTest4 -------> Demonstrates usage of ILI9341 and Adafruit fonts on the RA8876.
 - MemoryTransfer -----------> Shows usage of many BTE (Block Transfer Engine) functions.
 - pipTest ------------------------> Example of PIP (Picture In Picture) usage.
-- RA8876_pictureEmbed --> Displays 16Bit color images. Also demonstrates rotation.
-- RA8876Rotate --------------> Also demontrates use of rotation.
+- RA8889_pictureEmbed --> Displays 16Bit color images. Also demonstrates rotation.
+- RA8889Rotate --------------> Also demontrates use of rotation.
 - scroll ---------------------------> Simple demonstration of scrolliing screen up and down.
 - treedee ------------------------> Demonstrates a spinning 3D wire cube.
 - UserDefinedFonts ----------> Demonstrates loading  user define fonts into pattern ram.   Fonts can also be loaded from an SD card or USB drive.
@@ -150,9 +150,9 @@ They added functions to be compatible with other display libraries, performed a 
 ***
 
 # REFERENCES
-ER-TFTM-101-1 10.1" TFT from BuyDisplay:
-- https://www.buydisplay.com/serial-spi-i2c-10-1-inch-tft-lcd-module-dislay-w-ra8876-optl-touch-panel
-- https://www.buydisplay.com/download/ic/RA8876.pdf
+ER-TFT101B4-1-6105 10.1" TFT from BuyDisplay:
+- https://www.buydisplay.com/serial-spi-i2c-10-1-inch-tft-lcd-module-dislay-w-ra8889-optl-touch-panel
+- https://www.buydisplay.com/download/ic/RA8889.pdf
 
 PJRC Forum Threads:
 - https://forum.pjrc.com/threads/58565-RA8876LiteTeensy-For-Teensy-T36-and-T40

@@ -68,7 +68,7 @@ Config file for SPI:
 #define RA8889_CS 10
 #define RA8889_RESET 9
 
-// Example usage in sketch: RA8889_t3 tft = RA8889_t3(RA8876_CS, RA8889_RESET); //Using standard SPI pins
+// Example usage in sketch: RA8889_t3 tft = RA8889_t3(RA8889_CS, RA8889_RESET); //Using standard SPI pins
 
 // Uncomment define below to use 47MHz SPI clock. Default is 30MHz.
 // We start off slow in case of long connecting wires. If having problems,

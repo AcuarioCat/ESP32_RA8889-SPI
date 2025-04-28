@@ -63,6 +63,9 @@ Config file for SPI:
 #ifndef RA8889_CONFIG_SPI_H
 #define RA8889_CONFIG_SPI_H
 
+// Uncomment next line to increase SDRAM and CORE clock speeds.
+//#define USE_FAST_CLOCK_MODE
+
 // SPI hardware settings
 #define USE_SPI  // Needed for writeRect() in RA8876_GFX
 #define RA8889_CS 10

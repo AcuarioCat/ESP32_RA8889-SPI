@@ -33,6 +33,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+ //**************************************************************//
+// Added ESP32 compatibility
 //**************************************************************//
 
 #include "Arduino.h"
@@ -75,6 +77,16 @@ RA8889_t3::RA8889_t3(const uint8_t CSp, const uint8_t RSTp, const uint8_t mosi_p
 #define FLASHMEM
 #endif
 FLASHMEM boolean RA8889_t3::begin(uint32_t spi_clock) {
+#ifdef ESP32
+    Serial.printf("SPI Speed:%d\n", spi_clock);
+    pinMode(_cs, OUTPUT);
+    SPI.beginTransaction(SPISettings(SPIspeed, MSBFIRST, SPI_MODE0));
+    SPI.begin(_sclk, _miso, _mosi, _cs); // Override defaults
+    _SPI_CLOCK = spi_clock;
+    _pspi = &SPI;
+    _spi_num = 0; // Which buss is this spi on?
+
+#else
     // initialize the bus for Teensy 3.6/4.0
     //  Figure out which SPI Buss to use.
     _SPI_CLOCK = spi_clock; // #define ILI9341_SPICLOCK 30000000
@@ -157,6 +169,7 @@ FLASHMEM boolean RA8889_t3::begin(uint32_t spi_clock) {
 #ifdef SPI_HAS_TRANSFER_ASYNC
     finishedDMAEvent.setContext(this); // Set the contxt to us
     finishedDMAEvent.attachImmediate(asyncEventResponder);
+#endif
 #endif
 
     // toggle RST low to reset
@@ -285,9 +298,11 @@ void RA8889_t3::lcdRegDataWrite(ru8 reg, ru8 data, bool finalize) {
     // ru16 _data = (RA8889_SPI_DATAWRITE16 | data);
     uint8_t buf[4] = {RA8889_SPI_CMDWRITE, reg, RA8889_SPI_DATAWRITE, data};
     startSend();
-    //_pspi->transfer16(_reg);
-    //_pspi->transfer16(_data);
+#ifdef ESP32
+    _pspi->transferBytes(buf, nullptr, 4);
+#else
     _pspi->transfer(buf, nullptr, 4);
+#endif
     endSend(finalize);
 }
 
@@ -328,7 +343,11 @@ void RA8889_t3::bteMpuWriteWithROPData8(ru32 s1_addr, ru16 s1_image_width, ru16 
     // If you try _pspi->transfer(data, length) then this tries to write received data into the data buffer
     // but if we were given a PROGMEM (unwriteable) data pointer then _pspi->transfer will lock up totally.
     // So we explicitly tell it we don't care about any return data.
+#ifdef ESP32
+    _pspi->transferBytes(data, NULL, width * height * 2);
+#else
     _pspi->transfer(data, NULL, width * height * 2);
+#endif
     endSend(true);
 #endif
 }
@@ -450,7 +469,11 @@ void RA8889_t3::bteMpuWriteWithChromaKeyData8(ru32 des_addr, ru16 des_image_widt
     activeDMA = true;
     _pspi->transfer(data, NULL, width * height * 2, finishedDMAEvent);
 #else
+#ifdef ESP32
+    _pspi->transferBytes(data, NULL, width * height * 2);
+#else
     _pspi->transfer(data, NULL, width * height * 2);
+#endif
     endSend(true);
 #endif
 }

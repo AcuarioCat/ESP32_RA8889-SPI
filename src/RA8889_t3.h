@@ -114,8 +114,17 @@ class RA8889_t3 : public RA8889_common {
     }
 #endif
 
+    inline void SPISetCs(int cs)
+    {
+        if (cs) digitalWrite(_cs, HIGH);
+        else digitalWrite(_cs, LOW);
+    };
+
     // SPI Functions - should these be private?
     inline __attribute__((always_inline)) void startSend() {
+#ifdef ESP32
+        SPISetCs(0);
+#else
 #ifdef SPI_HAS_TRANSFER_ASYNC
         while (activeDMA) {
         }; // wait forever while DMA is finishing- can't start a new transfer
@@ -129,9 +138,13 @@ class RA8889_t3 : public RA8889_common {
 #else
         *_csport &= ~_cspinmask;
 #endif
+#endif
     }
 
     inline __attribute__((always_inline)) void endSend(bool finalize) {
+#ifdef ESP32
+        SPISetCs(1);
+#else
 #if defined(__IMXRT1052__) || defined(__IMXRT1062__) // Teensy 4.x
         DIRECT_WRITE_HIGH(_csport, _cspinmask);
 #else
@@ -141,6 +154,7 @@ class RA8889_t3 : public RA8889_common {
             _pspi->endTransaction();
             RA8889_BUSY = false;
         }
+#endif
     }
 
     void LCD_CmdWrite(unsigned char cmd);

@@ -1,12 +1,13 @@
-# TeensyRA8889-SPI
-## A RA8889 SPI DRIVER  library for Teensy boards and variants.
+# ESP32_RA8889-SPI TeensyRA8889-SPI
+## A RA8889 SPI DRIVER  library for ESP32 boards and variants.
+## Baaed onthe TeensyRA8889-SPI driver by wwatson4506.
 
-This library is designed to be used with the TeensyRA8889-GFX-Common library and can be found here:
-- https://github.com/wwatson4506/TeensyRA8889-GFX-Common
+This library is designed to be used with the ESP32__RA8889-GFX-Common library and can be found here:
+- https://github.com/AcuarioCat/ESP32_RA8889-GFX-Common
 
-Communication with the Teensy is accomplished using SPI.
+Communication with the ESP32 is accomplished using SPI.
 
-![https://github.com/wwatson4506/TeensyRA8889-SPI/blob/main/extras/MEM_Transfer.jpg](https://github.com/wwatson4506/TeensyRA8889-SPI/blob/main/extras/MEM_Transfer.jpg)
+![https://github.com/wwatson4506/ESP23_RA8889-SPI/blob/main/extras/MEM_Transfer.jpg](https://github.com/wwatson4506/ESP32_RA8889-SPI/blob/main/extras/MEM_Transfer.jpg)
 
 ## TOUCH SCREEN
 The capacitive touch controller now used on the ER-TFTM101-1 is the Goodix GT9271. I2C communication is used with the GT9371 controller.
@@ -22,22 +23,21 @@ A minimal driver adapted from the arduino-goodix library can be found here:
 
 # PINOUTS
 
-### CONNECTING THE TEENSY TO THE ER-TFT101B4-1-6105 in SPI 4 wire  mode:
+### CONNECTING THE ESP32 TO THE ER-TFT101B4-1-6105 in SPI 4 wire  mode:
 40 pin dual inline connector pinouts for SPI buss mode can be found here:
 
 https://www.buydisplay.com/download/interfacing/ER-TFTM101-1_CTP_Interfacing.pdf
 
-### Teensy 4.1 <--------------> RA8889
-### Dev BRD 5 (Same)
+### ESP32 <--------------> RA8889
 ```
 SPI usage.
-PIN                      PIN
-- CS   10 -------------------> Pin 05 SCS
-- SCK  13 -------------------> Pin 08 SCLK
-- MOSI 11 -------------------> Pin 07 SDI
-- MISO 12 -------------------> Pin 06 SDO
-- RST  09 -------------------> Pin 11 RESET
-- BL  3.3V (BACKLITE) -------> 14 or I/O pin.
+PIN                            PIN
+- CS   25 -------------------> Pin 05 SCS
+- SCK  19 -------------------> Pin 08 SCLK
+- MOSI 17 -------------------> Pin 07 SDI
+- MISO 18 -------------------> Pin 06 SDO
+- RST  27 -------------------> Pin 11 RESET
+- BL   26 -------------------> Pin 14 BACKLIGHT
 Power and Grounds
 - TFT 5V --------------------> 3,4,37,38
 - GND -----------------------> 1,2,13,31,39,40
@@ -68,10 +68,14 @@ Config file for SPI:
 
 // SPI hardware settings
 #define USE_SPI  // Needed for writeRect() in RA8876_GFX
-#define RA8889_CS 10
-#define RA8889_RESET 9
+#define BACKLITE	26
+#define LCD_RESET	27
+#define LCD_CS		25
+#define S_MOSI		18
+#define S_MISO		17
+#define S_SCK		19
 
-// Example usage in sketch: RA8889_t3 tft = RA8889_t3(RA8889_CS, RA8889_RESET); //Using standard SPI pins
+// Example usage in sketch: RA8889_t3 gfx = RA8889_t3(LCD_CS, LCD_RESET, S_MOSI, S_SCK, S_MISO);
 
 // Uncomment define below to use 47MHz SPI clock. Default is 30MHz.
 // We start off slow in case of long connecting wires. If having problems,
@@ -79,12 +83,6 @@ Config file for SPI:
 //
 // #define USE_SPI_47000000
 //
-
-// External backlight control connected to this Arduino pin. Can be controlled with PWM.
-// Otherwise 3.3v
-// Un-comment one of these defines for pin control of backlite.
-//#define BACKLITE 5 //External backlight control connected to this Arduino pin
-//#define BACKLITE 29 // Kurt's DB5 shield
 
 // Uncomment to use FT5206 touch. (Not used on the ER-TFTM1010-1)
 #define USE_FT5206_TOUCH
@@ -103,16 +101,17 @@ Config file for SPI:
 
 // RA8889_CS and RA8889_RESET are defined in
 // src/RA8889_Config_SPI.h.
-RA8889_t3 tft = RA8889_t3(RA8889_CS, RA8889_RESET); //Using standard SPI pins
+RA8889_t3 gfx = RA8889_t3(LCD_CS, LCD_RESET, S_MOSI, S_SCK, S_MISO);
+
 
 void setup() {
   Serial.begin(115200);
   while (!Serial && millis() < 3000) {} //wait for Serial Monitor (3 seconds).
 
 #if defined(USE_SPI_47000000)
-  tft.begin(47000000); // Max is 47000000 MHz (using short 3" wires)
+  gfx.begin(40000000);
 #else
-  tft.begin(); // default SPI clock speed is 30000000 MHz 
+  gfx.begin(); // default SPI clock speed is 30000000 MHz 
 #endif
   ... // Rest of user setup code.
 }

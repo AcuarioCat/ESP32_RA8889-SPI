@@ -1,6 +1,6 @@
-# ESP32_RA8889-SPI TeensyRA8889-SPI
-## A RA8889 SPI DRIVER  library for ESP32 boards and variants.
-## Baaed onthe TeensyRA8889-SPI driver by wwatson4506.
+# ESP32_RA8889-SPI
+## A RA8889 SPI DRIVER library for ESP32 boards and variants.
+## Based onthe TeensyRA8889-SPI driver by wwatson4506.
 
 This library is designed to be used with the ESP32__RA8889-GFX-Common library and can be found here:
 - https://github.com/AcuarioCat/ESP32_RA8889-GFX-Common

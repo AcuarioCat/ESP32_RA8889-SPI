@@ -7,7 +7,7 @@ This library is designed to be used with the ESP32__RA8889-GFX-Common library an
 
 Communication with the ESP32 is accomplished using SPI.
 
-![https://github.com/wwatson4506/ESP23_RA8889-SPI/blob/main/extras/MEM_Transfer.jpg](https://github.com/wwatson4506/ESP32_RA8889-SPI/blob/main/extras/MEM_Transfer.jpg)
+![https://github.com/AcuarioCat/ESP32_RA8889-GFX-Common/blob/main/extras/RA8889_GFX_Common.jpg](https://github.com/AcuarioCat/ESP32_RA8889-GFX-Common/blob/main/extras/RA8889_GFX_Common.jpg)
 
 ## TOUCH SCREEN
 The capacitive touch controller now used on the ER-TFTM101-1 is the Goodix GT9271. I2C communication is used with the GT9371 controller.
